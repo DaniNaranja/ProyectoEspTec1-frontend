@@ -1,5 +1,5 @@
 <template>
-    <nav class="nav-principal-contenedor sticky" style="height: 100px;">
+    <nav class="nav-principal-contenedor sticky" style="height: 90px;">
            
             <router-link to="/">
                 <img src="../assets/logo.png" alt="" class="logo">
@@ -12,9 +12,9 @@
            
            
             <ul class="nav">
-                     <li><a href=""><img class="hamburger-icon" src="../assets/Menuicon.png" alt=""></a>
+                     <li><a href=""><img class="hamburger-icon" src="../assets/Menuicon.png" alt="" style="height:45px; margin-top: 1rem;"></a>
                          <ul>
-                             <li><router-link to="/">Registro</router-link></li>
+                             <li><router-link to="/register">Registro</router-link></li>
                          </ul>
                      </li>
                      </ul>     
@@ -50,7 +50,7 @@ html{
     font-size: 2rem;
     padding-top: 0.5rem;
     padding-left: 0.5rem;
-    z-index: 2;
+    z-index: 3;
     
      
 }
@@ -116,6 +116,17 @@ ul, ol {
         margin-left: auto;
     }
     
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky+.content {
+  padding-top: 60px;
 }
 
 
