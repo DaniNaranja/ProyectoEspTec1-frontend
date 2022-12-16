@@ -8,43 +8,43 @@
             <form  method="post" style="color:aliceblue; margin-left: 2%;">
     
                 <label for="nickname" style="font-size: 2.5rem;">Nickname:</label><br>
-                <input type="text" id="nickname" name="nickname" style=" border-radius: 1.5rem; background-color: #b89e77ec; width: 70%; font-size: 25px; padding: 0.5rem; border: transparent;">
+                <input v-model="form.nickname" :placeholder="user.nickname" type="text" id="nickname" name="nickname" style=" border-radius: 1.5rem; background-color: #b89e77ec; width: 70%; font-size: 25px; padding: 0.5rem; border: transparent;">
                 <br>
                 <hr style="color: #000000;">
                 <label for="profilePicture" style="font-size: 2.5rem;">Foto de perfil (Ingrese un link valido):</label><br>
-                <input name="profilePicture" id="profilePicture" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; padding: 0.5rem;border: transparent;">
+                <input v-model="form.profile" :placeholder="user.profile" name="profilePicture" id="profilePicture" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; padding: 0.5rem;border: transparent;">
                 <br>
                 <hr style="color: #000000;">
                 <label for="bannerPicture" style="font-size: 2.5rem;">Foto de portada (Ingrese un link valido):</label><br>
-                <input name="bannerPicture" id="bannerPicture" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; padding: 0.5rem;border: transparent;">
+                <input v-model="form.banner" :placeholder="user.banner" name="bannerPicture" id="bannerPicture" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; padding: 0.5rem;border: transparent;">
                 <br>
                 <hr style="color: #000000;">
                 
                 <label for="linkIG" style="font-size: 2.5rem;">Link Instagram:</label><br>
                 <img src="../assets/IGicon.png" alt="" style="padding-right:2rem; " >
-                <input  name="linkIG" id="linkIG" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 66.3%; padding: 0.5rem;border: transparent;">
+                <input v-model="form.linkIG" :placeholder="user.linkIG" name="linkIG" id="linkIG" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 66.3%; padding: 0.5rem;border: transparent;">
                 <br>
                 <hr style="color: #000000;">
                 <label for="linkFB" style="font-size: 2.5rem;">Link Facebook:</label><br>
                 <img src="../assets/FBicon.png" alt="" style="padding-right:2rem; ">
-                <input  name="linkFB" id="linkFB" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 66.4%; padding: 0.5rem;border: transparent;">
+                <input v-model="form.linkFB" :placeholder="user.linkFB" name="linkFB" id="linkFB" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 66.4%; padding: 0.5rem;border: transparent;">
                 <br>
                 <hr style="color: #000000;">
                 <label for="linkTW" style="font-size: 2.5rem;">Link Twitter:</label><br>
                 <img src="../assets/TWicon.png" alt="" style="padding-right:2rem; ">
-                <input  name="linkTW" id="linkTW" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 66.3%; padding: 0.5rem;border: transparent;">
+                <input v-model="form.linkTW" :placeholder="user.linkTW" name="linkTW" id="linkTW" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 66.3%; padding: 0.5rem;border: transparent;">
                 <br>
                 <hr style="color: #000000;">
             
                 <label for="descripcion" style="font-size: 2.5rem;">Descripcion:</label><br>
-                <textarea name="desripcion" id="descripcion" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; padding: 0.5rem; height: 150px; border: transparent;"></textarea>
+                <textarea v-model="form.descripcion" :placeholder="user.descripcion" name="desripcion" id="descripcion" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; padding: 0.5rem; height: 150px; border: transparent;"></textarea>
 
                 <br>
                 <br>
                 <br>
-                <router-link to="/profile">
-                    <input type="submit" class="boton" value="Subir" style="margin-left: 58%; font-size: 30px; width: fit-content; padding-left: 4%; padding-right: 4%;">
-                </router-link>
+                
+                    <input v-on:click="submit()" type="submit" class="boton" value="Subir" style="margin-left: 58%; font-size: 30px; width: fit-content; padding-left: 4%; padding-right: 4%;">
+                
             </form>
             <br>
  
@@ -55,11 +55,47 @@
 
 <script>
 
+import axios from 'axios'
+
 
 export default {
   name: 'EditProfileView',
   components: {
     
+  },
+  data(){
+    return {
+        user: null,
+        form: {
+            nickname: "",
+            profile: "",
+            banner: "",
+            linkIG: "",
+            linkFB: "",
+            linkTW: "",
+            descripcion: ""
+            
+        }
+    }
+  },
+  mounted(){
+    axios.get('http://localhost:3000/profile/edit_profile/'+this.$route.params.userId)
+    .then( response => {
+        this.user = response.data;
+        console.log(this.user)
+    })
+
+  },
+  methods: {
+    submit(){
+        axios.put(`http://localhost:3000/profile/edit_profile/` + this.$route.params.id, this.form)
+        .then((res) => {
+                console.log(res)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
   }
 }
 </script>

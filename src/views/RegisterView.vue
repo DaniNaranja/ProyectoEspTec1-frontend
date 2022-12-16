@@ -2,38 +2,37 @@
     <div :style="{'background-image': 'url(https://iili.io/HogeEap.png)'}" style="height:100vh">
         <div class="contenedor-form"
      style="background-color: rgba(0,0, 0, 0.7); height: 120.5rem;max-height: 100%; width: 25%; margin-left: 10%;">
-    <form th:action="@{/form_registro}" th:object="${artista}" method="post" style="color:aliceblue; padding-left: 5%;">
+    <form v-on:submit.prevent="submitForm" style="color:white; padding-left: 5%;">
         <br>
         <label style="font-size: 3rem;">Regístrate</label><br><br>
 
         <label for="nickname" style="font-size: 2.5rem;">Nombre Usuario:</label><br><br>
-        <input type="text" id="nickname" name="nickname" th:field="*{nickname}"
+        <input type="text" id="nickname" placeholder="nickname"
                style=" border-radius: 1.5rem; background-color: #b89e77ec; width: 90%; padding: 1rem; font-size: 25px; border: transparent;"
-               required>
+               required
+               v-model="form.nickname">
         <br>
         <br>
 
         <label for="email" style="font-size: 2.5rem;">E-mail:</label><br><br>
-        <input type="email" id="email" name="email" th:field="*{email}"
+        <input type="email" id="email" placeholder="email"
                style="padding: 1rem; border-radius: 1.5rem; background-color: #b89e77ec; width: 90%; font-size: 25px;border: transparent;"
-               required>
+               required v-model="form.email">
         <br>
         <br>
 
         <label for="password" style="font-size: 2.5rem;">Contraseña:</label><br><br>
-        <input type="password" id="password" name="password" th:field="*{password}"
+        <input type="password" id="password" placeholder="password"
                style="padding: 1rem; border-radius: 1.5rem; background-color: #b89e77ec; width: 90%; font-size: 25px;border: transparent;"
-               required>
+               required
+               v-model="form.password">
         <br>
         <br>
 
-
-        <input type="hidden" th:field="*{id}">
-
         <br>
         <br>
         <br>
-        <input type="submit" class="boton-login" style="margin-left: 50%; width: 200px;" value="Crear cuenta">
+        <input v-on:click="submit()" type="submit" class="boton-login" style="margin-left: 45%; " value="Crear cuenta">
     </form>
     <br>
     <br>
@@ -47,8 +46,32 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
-    name: 'RegisterView'
+    name: 'RegisterView',
+    data(){
+        return{
+            form: {
+                nickname: "nickname",
+                email: "email",
+                password: "password"
+            }
+        }
+    },
+    methods:{
+        submit(){
+            axios.post('http://localhost:3000/auth/register', this.form)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+        }
+    }
 
 }
 </script>
@@ -107,6 +130,7 @@ h3 {
 
 
 .boton-login{
+    width: 50%;
 
     border: transparent;
     
@@ -114,7 +138,7 @@ h3 {
    
     padding: 1rem 2rem;
 
-    font-size: 2.5rem;
+    font-size: 25px;
     
     border-radius: 1.5rem;
     

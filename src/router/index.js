@@ -15,7 +15,7 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/profile', //AgREGAR ID USUARIO DESPUES
+    path: '/profile/:userId', 
     name: 'profile',
     component: ProfileView
   },
@@ -25,12 +25,12 @@ const routes = [
     component: GalleryView
   },
   {
-    path:'/submit',
+    path:'/submit/:userId',
     name: 'submit',
     component: SubmitView
   },
   {
-    path:'/edit_profile',
+    path:'/edit_profile/:userId',
     name: 'edit_profile',
     component: EditProfileView
   },
@@ -40,7 +40,7 @@ const routes = [
     component: RegisterView
   },
   {
-    path:'/visor',
+    path:'/visor/:id',
     name: 'visor',
     component: VisorView
   }

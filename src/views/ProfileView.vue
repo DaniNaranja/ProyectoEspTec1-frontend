@@ -2,7 +2,7 @@
   
 
     <div style="margin-top: 6%; margin-left: 6.5%;">
-    <section class="content" style="width: 100%; padding: 10px; background-color: #000000;">
+    <section class="content" style="width: 100%; padding: 10px; background-color: #000000;" v-if="user">
 
       
        
@@ -50,12 +50,12 @@
                                 <span>&nbsp;&nbsp;Facebook</span> 
                             </a>
                         </li>
-                        <router-link to="/edit_profile">
-                          <div class="boton" style="margin-left: 29rem;">
+                       
+                          <div class="boton" style="margin-left: 29rem;" @click="editProfile(user._id)">
                             <span>Editar&nbsp;&nbsp;</span>
                             <img src="../assets/editICON.png" alt="" style="height:35px">
                           </div>
-                        </router-link>
+                        
                         
                  </div>
                  <br>
@@ -63,39 +63,13 @@
 
                
 
-                <div class="gallery" >
-                    <div class="row">
-                        <div class="column"> <!--AGREGAR IF Y FOR DIBUJO IGUAL QUE PROYECTO ANTERIOR-->
-                            <router-link to="/visor">
-                                <img class="demo cursor" src="../assets/logo.png" style="width:100%; padding: 2rem;"  >
-                            </router-link>
-                        </div>
-                        <div class="column"> <!--AGREGAR IF Y FOR DIBUJO IGUAL QUE PROYECTO ANTERIOR-->
-                            <router-link to="/visor">
-                                <img class="demo cursor" src="../assets/logo.png" style="width:100%; padding: 2rem;"  >
-                            </router-link>
-                        </div>
-                        <div class="column"> <!--AGREGAR IF Y FOR DIBUJO IGUAL QUE PROYECTO ANTERIOR-->
-                            <router-link to="/visor">
-                                <img class="demo cursor" src="../assets/logo.png" style="width:100%; padding: 2rem;"  >
-                            </router-link>
-                        </div>
-                        <div class="column"> <!--AGREGAR IF Y FOR DIBUJO IGUAL QUE PROYECTO ANTERIOR-->
-                            <router-link to="/visor">
-                                <img class="demo cursor" src="../assets/logo.png" style="width:100%; padding: 2rem;"  >
-                            </router-link>
-                        </div>
-                        <div class="column"> <!--AGREGAR IF Y FOR DIBUJO IGUAL QUE PROYECTO ANTERIOR-->
-                            <router-link to="/visor">
-                                <img class="demo cursor" src="../assets/logo.png" style="width:100%; padding: 2rem;"  >
-                            </router-link>
-                        </div><div class="column"> <!--AGREGAR IF Y FOR DIBUJO IGUAL QUE PROYECTO ANTERIOR-->
-                            <router-link to="/visor">
-                                <img class="demo cursor" src="../assets/logo.png" style="width:100%; padding: 2rem;"  >
-                            </router-link>
-                        </div>
-                    </div>
-                </div>
+                 <div class="gallery" style="display:flexbox; flex-flow:wrap; margin-left: 3rem;">
+               
+               <div v-for="drawing in user.drawings" :key="drawing.id" @click="showDrawing(drawing._id)">
+                   <img class="demo cursor" :src="drawing.url" style="height:280px; margin: 1rem;">   
+               </div>
+            
+           </div>
 
 
      
@@ -109,8 +83,29 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'ProfileView',
+    data() {
+      return {
+        user: null
+      }
+    },
+
+    mounted() {
+      axios
+      .get('http://localhost:3000/profile/'+this.$route.params.id)
+      .then(response => {
+        this.user =response.data;
+        console.log(this.user)
+      })
+    },
+    methods: {
+      editProfile(id) {
+        this.$router.push( {name: 'edit_profile', params: {id}});
+
+      }
+    }
 
 }
 </script>

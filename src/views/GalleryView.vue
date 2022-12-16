@@ -12,15 +12,10 @@
 
             <div class="gallery" style="display:flexbox; flex-flow:wrap; margin-left: 3rem;">
                
-                <router-link to="/visor">
-                    <img class="demo cursor" src="../assets/logo.png" style="height:280px; margin: 1rem;">
-                </router-link>
-                
-                
-                
-                
-                
-                
+                <div v-for="drawing in drawings" :key="drawing.id" @click="showDrawing(drawing._id)">
+                    <img class="demo cursor" :src="drawing.url" style="height:280px; margin: 1rem;">   
+                </div>
+             
             </div>
         </section>
     </div>
@@ -32,11 +27,27 @@
 
 <script>
 
-
+import axios from 'axios'
 export default {
     name: 'GalleryView',
     components: {
-
+    },
+    data() {
+        return{
+            drawings: []
+        };
+    },
+    mounted() {
+        let vue = this;
+        axios.get('http://localhost:3000/gallery')
+        .then(function (response) {
+            vue.drawings = response.data;
+        })
+    },
+    methods: {
+        showDrawing(id) {
+            this.$router.push( {name:'visor', params: {id}});
+        },
     }
 }
 </script>

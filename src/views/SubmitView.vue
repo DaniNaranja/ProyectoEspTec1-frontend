@@ -11,26 +11,25 @@
 
             <label for="titulo" style="font-size: 2.5rem;">Titulo:</label><br><br>
 
-            <input type="text" id="titulo" name="titulo" style="padding: 1rem; border-radius: 1.5rem; background-color: #b89e77ec; width: 70%; padding: 2rem; font-size: 25px;">
+            <input v-model="form.titulo" type="text" id="titulo" name="titulo" style="padding: 1rem; border-radius: 1.5rem; background-color: #b89e77ec; width: 70%; padding: 2rem; font-size: 25px;">
             <br>
             <br>
             
           
             <label for="descripcion" style="font-size: 2.5rem;">Descripcion:</label><br><br>
-            <textarea name="descripcion" id="descripcion" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; height: 200px;"></textarea>
+            <textarea v-model="form.descripcion" name="descripcion" id="descripcion" cols="100" rows="10" style="background-color: #b89e77ec; font-size: 25px;border-radius: 1.5rem; width: 70%; height: 200px;"></textarea>
             <br>
             <br>
             <label for="link" style="font-size: 2.5rem;">Link imagen:</label><br><br>
-            <input type="text" id="link" name="link" style="padding: 1rem; border-radius: 1.5rem; background-color: #b89e77ec; width: 70%; padding: 2rem; font-size: 25px;">
+            <input v-model="form.url" type="text" id="link" name="link" style="padding: 1rem; border-radius: 1.5rem; background-color: #b89e77ec; width: 70%; padding: 2rem; font-size: 25px;">
 
-            <!--<input type="hidden" th:field="*{id_dibujo}">-->
 
 
             <br>
             <br>
-            <router-link to="/visor">
-                <input type="submit" class="boton" value="Subir" style="margin-left: 58%; font-size: 30px; width: fit-content; padding-left: 4%; padding-right: 4%;">
-            </router-link>
+            
+            <input v-on:click="submit()" type="submit" class="boton" value="Subir" style="margin-left: 58%; font-size: 30px; width: fit-content; padding-left: 4%; padding-right: 4%;">
+            
             
         </form>
         
@@ -46,12 +45,33 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 
 export default {
   name: 'SubmitView',
   components: {
-    
+  },
+  data(){
+    return {
+        form: {
+            titulo: "",
+            descripcion: "",
+            url: "",
+            
+        }
+    }
+  },
+  methods: {
+    submit(){
+        axios.post(`http://localhost:3000/submit/`+ this.$route.params.id, this.form)
+        .then((res) => {
+                console.log(res)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
   }
 }
 </script>

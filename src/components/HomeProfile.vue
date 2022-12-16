@@ -1,36 +1,36 @@
 <template>
-    <section class="inicio-profile">
-          <router-link to="/profile">
-            <div>
-              <img src="../assets/profilephoto.png" style=" border-radius: 10px">
+    <section class="inicio-profile" v-if="user">
+          >
+            <div v-on:click="checkProfile(user._id)">
+              <img :src="user.profile" style=" border-radius: 10px; height: 200px;">
             </div>
 
-          </router-link>
+          
             
 
           <div class="info-user">
             <div class="inicio-rrss" >
               <li>
                 <router-link to="/profile" class="user-name">
-                  <h3 style="font-size:3.5rem"> Nickname</h3>
+                  <h3 style="font-size:3.5rem"> {{ user.nickname}}</h3>
                   <hr style="color: #000000;">
                 </router-link>
                   
                 
-                <a href="https://www.instagram.com/orenji_pyon/?hl=es-la">
+                <a :href="user.linkIG">
                   <img src="../assets/IGicon.png" style="height: 40px; vertical-align: middle">
                   <span style="line-height: 5.5vh;">&nbsp;  Instagram</span>
                 </a>
                 <br>
                 
-                <a href="https://www.instagram.com/orenji_pyon/?hl=es-la">
+                <a :href="user.linkTW">
                   <img src="../assets/TWicon.png" style="height: 40px; vertical-align: middle ">
                   <span style="line-height: 5.5vh;">&nbsp;  Twitter</span>
                 </a>
                 <br>
                 
 
-                <a href="https://www.instagram.com/orenji_pyon/?hl=es-la">
+                <a :href="user.linkFB">
                   <img src="../assets/FBicon.png" style="height: 48px; vertical-align: middle; ">
                   <span style="line-height: 5.5vh;">&nbsp;  Facebook</span>
                 </a>
@@ -43,18 +43,18 @@
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <div class="d-flex justify-content-center">
-                  <img src="../assets/LOGOarte.png" class="d-block w-50" alt="...">
+                  <img :src="user.drawings[0]" class="d-block w-50" alt="...">
                 </div>
                 
               </div>
               <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                  <img src="../assets/LOGOarte.png" class="d-block w-50" alt="...">
+                  <img :src="user.drawings[1]" class="d-block w-50" alt="...">
                 </div>
               </div>
               <div class="carousel-item">
                 <div class="d-flex justify-content-center">
-                  <img src="../assets/LOGOarte.png" class="d-block w-50" alt="...">
+                  <img :src="user.drawings[2]" class="d-block w-50" alt="...">
                 </div>
               </div>
             </div>
@@ -74,7 +74,17 @@
 <script>
 export default {
 
-    name: 'NavBar',
+    name: 'HomeProfile',
+    props: {
+        user: Object,
+    },
+    methods: {
+        checkProfile(userId){
+            this.$router.push({name: 'profile', params: {userId}});
+
+        }
+        
+    }
 
 
 }
